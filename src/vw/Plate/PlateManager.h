@@ -8,6 +8,7 @@
 #ifndef __VW_PLATE_PLATEMANAGER_H__
 #define __VW_PLATE_PLATEMANAGER_H__
 
+#include <vw/Core/Cache.h>
 #include <vw/Plate/FundamentalTypes.h>
 #include <vw/Plate/PlateFile.h>
 #include <vw/Cartography/GeoReference.h>
@@ -146,6 +147,11 @@ namespace platefile {
 
       // Sync the index
       m_platefile->sync();
+
+      // Attempt to clear out the cache from the users use of DiskImageView.
+      size_t cache_before = vw_system_cache().max_size();
+      vw_system_cache().resize(100*1024);
+      vw_system_cache().resize(cache_before);
 
       // Mipmap the tiles.
       if (pyramid_level > 0) {
