@@ -186,11 +186,15 @@ platereduce_LDADD   = $(PLATE_LOCAL_LIBS)
 blob_file_dump_SOURCES = blob_file_dump.cc
 blob_file_dump_LDADD   = $(PLATE_LOCAL_LIBS)
 
+blob_file_test_SOURCES = blob_file_test.cc
+blob_file_test_LDADD   = $(PLATE_LOCAL_LIBS)
+
 dump_page_SOURCES = dump_page.cc
 dump_page_LDADD   = $(PLATE_LOCAL_LIBS)
 
 bin_PROGRAMS =   \
   blob_file_dump \
+  blob_file_test \
   dump_page      \
   hirise2tif     \
   image2plate    \
