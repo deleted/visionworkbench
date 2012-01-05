@@ -7,6 +7,7 @@
 
 #include <vw/Plate/Blob.h>
 #include <vw/Plate/FundamentalTypes.h>
+#include <vw/Plate/Exception.h>
 #include <vw/Core.h>
 #include <vw/Image.h>
 #include <vw/FileIO.h>
@@ -72,13 +73,14 @@ int main( int argc, char *argv[] ) {
   size_t dot = blob_name.rfind('.');
   std::string blob_prefix = blob_name.substr(0,dot);
 
-  std::cout << "Started!\n";
+  std::cout << "Testing " << blob_name << "... " << std::flush;
 
+ImageView<PixelGray<uint8> > view;
+try {
   BOOST_FOREACH(const BlobTileRecord& rec, blob) {
     if (transaction_id >= 0 && rec.hdr.transaction_id() != transaction_id)
       continue;
 
-    ImageView<PixelGray<uint8> > view;
     boost::scoped_ptr<SrcMemoryImageResource> r(SrcMemoryImageResource::open( rec.hdr.filetype(), 
         &rec.data->operator[](0), 
         rec.data->size()));
@@ -92,8 +94,12 @@ read_image(view, *r);
 //    VW_ASSERT(!ofile.fail(), IOErr() << ": failed to write to " << ostr.str());
 //    ofile.close();
   }
+} catch (vw::platefile::BlobIoErr e) {
+    std::cout << e.what() << "\n" << std::flush;
+    return 1;
+}
 
-  std::cout << "Finished!\n";
 
+  std::cout << "OK\n";
   return 0;
 }
