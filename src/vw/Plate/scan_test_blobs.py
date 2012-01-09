@@ -1,4 +1,4 @@
-#!/usr/env python
+#!/usr/bin/env python
 import sys, os
 import glob
 import  subprocess, multiprocessing
@@ -19,7 +19,7 @@ def record_output(output):
 def scan_all_blobs(dirname):
     assert os.path.exists(dirname)
     pool = multiprocessing.Pool()
-    i = o
+    i = 0
     for blobfile in glob.glob( os.path.join( dirname, '*.blob') ):
         r = pool.apply_async(scan_blob, [blobfile], callback=record_output)
         i += 1
