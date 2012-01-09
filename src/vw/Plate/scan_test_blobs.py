@@ -1,3 +1,4 @@
+#!/usr/env python
 import sys, os
 import glob
 import  subprocess, multiprocessing
