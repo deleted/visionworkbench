@@ -12,7 +12,7 @@ def scan_blob(blobfile):
     return output
 
 def record_output(output):
-    print output
+    sys.stdout.write( output )
     sys.stdout.flush()
 
 
